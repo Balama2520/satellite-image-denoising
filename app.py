@@ -12,10 +12,8 @@ def calculate_mse(original, denoised):
 
 def calculate_psnr(original, denoised):
     mse = calculate_mse(original, denoised)
-
     if mse == 0:
         return float("inf")
-
     return 20 * np.log10(255.0 / np.sqrt(mse))
 
 
@@ -54,7 +52,7 @@ def denoise_image(image, h_value):
 demo = gr.Interface(
     fn=denoise_image,
     inputs=[
-        gr.Image(type="numpy"),
+        gr.Image(type="numpy", label="Upload Satellite Image"),
         gr.Slider(
             minimum=3,
             maximum=25,
@@ -70,7 +68,16 @@ demo = gr.Interface(
         gr.Textbox(label="SSIM")
     ],
     title="Satellite Image Denoising",
-    description="Upload a satellite image and evaluate denoising quality."
+    description=(
+        "Upload a satellite image and evaluate denoising quality using "
+        "Non-Local Means (NLM) filtering. Adjust denoising strength and "
+        "View PSNR, SSIM, and MSE metrics in real time.\n\n"
+        "Built by Bala Maneesh Ayanala | "
+        "Research: researchgate.net/profile/Bala-Ayanala | "
+        "Portfolio: abms-portfolio.netlify.app"
+    ),
+    examples=[],
+    flagging_mode="never"
 )
 
 if __name__ == "__main__":
